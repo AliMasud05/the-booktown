@@ -1,6 +1,7 @@
 import cors from "cors";
 import express, { Application, NextFunction, Request, Response } from "express";
 import config from "./config";
+import routes from "./app/routes";
 const app: Application = express();
 
 app.use(cors());
@@ -10,12 +11,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Application  routes
-//app.use("/api/v1", routes);
+app.use("/api/v1", routes);
 //  app.use('/api/v1/user',UserRoutes)
 //  app.use('/api/v1/academic-semesters',AcademicSemesterRoutes)
 //Testing
 app.get('/', async(req: Request, res: Response) => {
-  res.send('Testing Error')
+  res.send('Server Create')
 })
 
 //globalErrorHandler
