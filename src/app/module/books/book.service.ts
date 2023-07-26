@@ -15,6 +15,31 @@ const getSingleBook = async (id: string): Promise<IBook | null> => {
   const result = await Book.findOne({ _id: id });
   return result;
 };
+const postReview = async (
+  id: string,
+  payload: Partial<IBook>
+): Promise<IBook | null> => {
+   const isExist = await Book.findOne({ _id: id });
+
+   if (!isExist) {
+     return null;
+   }
+   const result = await Book.findOneAndUpdate({ _id: id },
+      { $push: { reviews: payload } },
+       {
+        new: true,
+      }
+   );
+   return result;
+};
+const getReview = async (id: string): Promise<IBook | null> => {
+  const result = await Book.findOne({ _id: id }, { _id:0,reviews: 1 });
+  
+  console.log(result)
+  
+  return result;
+};
+
 
 const updateBook = async (
   id: string,
@@ -42,4 +67,6 @@ export const BookService = {
    updateBook,
   deleteBook,
   createBook,
+  getReview,
+  postReview
 };

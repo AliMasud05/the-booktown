@@ -44,12 +44,33 @@ const getSingleBook = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const postReview = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const review =req.body.reviews;
+  const result = await BookService.postReview(id,review);
+
+  sendResponse<IBook>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Book review retrieved successfully !",
+    data: result,
+  });
+});
+const getReview = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const result = await BookService.getReview(id);
+
+  sendResponse<IBook>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Book review retrieved successfully !",
+    data: result,
+  });
+});
 
 const updateBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedData = req.body;
-  console.log(id,updatedData)
-
   const result = await BookService.updateBook(id, updatedData);
 
   sendResponse<IBook>(res, {
@@ -61,7 +82,6 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
 });
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-
   const result = await BookService.deleteBook(id);
 
   sendResponse<IBook>(res, {
@@ -76,6 +96,8 @@ export const BookController = {
   getAllBooks,
   getSingleBook,
   updateBook,
- deleteBook,
-  createBook
+  deleteBook,
+  createBook,
+  getReview,
+  postReview,
 };
